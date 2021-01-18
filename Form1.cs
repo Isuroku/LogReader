@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,34 @@ using System.Windows.Forms;
 
 namespace LogReader
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, CascadeParser.IParserOwner, CascadeParser.ILogPrinter
     {
+        const string SettingFileName = "Settings.txt";
+        Settings _settings;
+
+        CascadeSerializer.CCascadeSerializer _serializer;
+
         public Form1()
         {
             InitializeComponent();
+            _serializer = new CascadeSerializer.CCascadeSerializer(this);
+
+            string setting_file = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), SettingFileName);
+            if (!File.Exists(setting_file))
+            {
+                using (StreamWriter writer = File.CreateText(setting_file))
+                {
+
+                    _settings = new Settings();
+                    string text = _serializer.SerializeToCascade(_settings, this);
+                    writer.Write(text);
+                }
+            }
+            else
+            {
+                using (StreamReader reader = File.OpenText(setting_file))
+                    _settings = _serializer.Deserialize<Settings>(reader.ReadToEnd(), this);
+            }
         }
 
         #region LogWindow Output
@@ -70,5 +94,27 @@ namespace LogReader
         }
 
         #endregion //LogWindow Output
+
+        #region CascadeParser Interfaces
+        public string GetTextFromFile(string inFileName, object inContextData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LogError(string inText)
+        {
+            AddLogToConsole(inText, ELogLevel.Error);
+        }
+
+        public void LogWarning(string inText)
+        {
+            AddLogToConsole(inText, ELogLevel.Warning);
+        }
+
+        public void Trace(string inText)
+        {
+            AddLogToConsole(inText, ELogLevel.Info);
+        }
+        #endregion //CascadeParser Interfaces
     }
 }
