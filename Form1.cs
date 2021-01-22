@@ -144,6 +144,7 @@ namespace LogReader
         {
             lbFindFolders.BeginInvoke(new Action(() =>
             {
+                lbFindFolders.Items.Clear();
                 lbFindFolders.Items.AddRange(_settings.LogFolders.ToArray());
             }));
 
@@ -153,11 +154,12 @@ namespace LogReader
 
                 foreach (string path in _settings.LogFolders)
                 {
+                    cbLogFile.Items.Add(new SLogFileInfo(path, false));
                     string[] files = Directory.GetFiles(path, "*.log");
 
                     foreach (string fl in files)
                     {
-                        cbLogFile.Items.Add(new SLogFileInfo(fl));
+                        cbLogFile.Items.Add(new SLogFileInfo(fl, true));
                     }
                 }
 
@@ -167,6 +169,7 @@ namespace LogReader
 
             lbClearKeys.BeginInvoke(new Action(() =>
             {
+                lbClearKeys.Items.Clear();
                 foreach (string f in _settings.Filters)
                 {
                     lbClearKeys.Items.Add(f);
@@ -194,32 +197,59 @@ namespace LogReader
             }
         }
 
+        private void btnDelFindFolder_Click(object sender, EventArgs e)
+        {
+            string path = lbFindFolders.SelectedItem as string;
+            if(string.IsNullOrEmpty(path))
+            {
+                LogWarning("Need select folder!");
+                return;
+            }
+
+            _settings.LogFolders.Remove(path);
+            SaveSettings();
+            OnSettingChange();
+        }
+
         private void ReadSelectFile()
         {
             _log_strings.Clear();
             SLogFileInfo sfi = (SLogFileInfo)cbLogFile.SelectedItem;
-            Trace($"Begin read {sfi.FilePath}");
-            using (StreamReader reader = File.OpenText(sfi.FilePath))
+            if(!sfi.IsFile)
             {
-                int ln = 1;
-                string line = reader.ReadLine();
-                while(line != null)
-                {
-                    var ls = new CLogString(line, ln);
-                    _log_strings.Add(ls);
-
-                    line = reader.ReadLine();
-                    ln++;
-                }
-
-                OutputText();
+                LogWarning($"Need select file!");
+                return;
             }
-            Trace($"End read {sfi.FilePath}");
+            Trace($"Begin read {sfi.FilePath}");
+            try
+            {
+                using (StreamReader reader = File.OpenText(sfi.FilePath))
+                {
+                    int ln = 1;
+                    string line = reader.ReadLine();
+                    while (line != null)
+                    {
+                        var ls = new CLogString(line, ln);
+                        _log_strings.Add(ls);
+
+                        line = reader.ReadLine();
+                        ln++;
+                    }
+
+                    OutputText();
+                }
+                Trace($"End read {sfi.FilePath}");
+            }
+            catch(Exception ex)
+            {
+                LogError($"Cant read file{sfi.FilePath}: {ex.Message}");
+            }
         }
 
         private void OutputText()
         {
             Trace($"Begin output text");
+            int count = 0;
             var sb = new StringBuilder();
             foreach(CLogString ls in _log_strings)
             {
@@ -232,10 +262,11 @@ namespace LogReader
                     continue;
 
                 sb.AppendLine(ls.ToString());
+                count++;
             }
 
             rtbContent.Text = sb.ToString();
-            Trace($"End output text");
+            Trace($"End output text: {count} lines");
         }
 
         private void btnAddFilter_Click_1(object sender, EventArgs e)
@@ -321,5 +352,7 @@ namespace LogReader
             Trace($"Set line_range1 {_line_range1}; line_range2 {_line_range2}");
             OutputText();
         }
+
+        
     }
 }

@@ -40,15 +40,16 @@ namespace LogReader
             this.label1 = new System.Windows.Forms.Label();
             this.lbFindFolders = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.btnLnNumRange = new System.Windows.Forms.Button();
+            this.tbLnNum2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbLnNum1 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnClearFilter = new System.Windows.Forms.Button();
             this.btnAddFilter = new System.Windows.Forms.Button();
             this.rtbFilter = new System.Windows.Forms.RichTextBox();
             this.rtbContent = new System.Windows.Forms.RichTextBox();
-            this.btnClearFilter = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbLnNum1 = new System.Windows.Forms.TextBox();
-            this.tbLnNum2 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.btnLnNumRange = new System.Windows.Forms.Button();
+            this.btnDelFindFolder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -82,6 +83,7 @@ namespace LogReader
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnDelFindFolder);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.lbClearKeys);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
@@ -141,7 +143,7 @@ namespace LogReader
             // 
             this.btnAddFindFolders.Location = new System.Drawing.Point(3, 78);
             this.btnAddFindFolders.Name = "btnAddFindFolders";
-            this.btnAddFindFolders.Size = new System.Drawing.Size(117, 23);
+            this.btnAddFindFolders.Size = new System.Drawing.Size(129, 23);
             this.btnAddFindFolders.TabIndex = 42;
             this.btnAddFindFolders.Text = "Add Find Folder";
             this.btnAddFindFolders.UseVisualStyleBackColor = true;
@@ -196,6 +198,59 @@ namespace LogReader
             this.splitContainer2.SplitterDistance = 127;
             this.splitContainer2.TabIndex = 2;
             // 
+            // btnLnNumRange
+            // 
+            this.btnLnNumRange.Location = new System.Drawing.Point(267, 87);
+            this.btnLnNumRange.Name = "btnLnNumRange";
+            this.btnLnNumRange.Size = new System.Drawing.Size(75, 23);
+            this.btnLnNumRange.TabIndex = 7;
+            this.btnLnNumRange.Text = "Set Range";
+            this.btnLnNumRange.UseVisualStyleBackColor = true;
+            this.btnLnNumRange.Click += new System.EventHandler(this.btnLnNumRange_Click);
+            // 
+            // tbLnNum2
+            // 
+            this.tbLnNum2.Location = new System.Drawing.Point(181, 87);
+            this.tbLnNum2.Name = "tbLnNum2";
+            this.tbLnNum2.Size = new System.Drawing.Size(79, 20);
+            this.tbLnNum2.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(156, 87);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(19, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "to:";
+            // 
+            // tbLnNum1
+            // 
+            this.tbLnNum1.Location = new System.Drawing.Point(68, 87);
+            this.tbLnNum1.Name = "tbLnNum1";
+            this.tbLnNum1.Size = new System.Drawing.Size(79, 20);
+            this.tbLnNum1.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Lines from:";
+            // 
+            // btnClearFilter
+            // 
+            this.btnClearFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearFilter.Location = new System.Drawing.Point(952, 50);
+            this.btnClearFilter.Name = "btnClearFilter";
+            this.btnClearFilter.Size = new System.Drawing.Size(75, 30);
+            this.btnClearFilter.TabIndex = 2;
+            this.btnClearFilter.Text = "Clear Filter";
+            this.btnClearFilter.UseVisualStyleBackColor = true;
+            this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
+            // 
             // btnAddFilter
             // 
             this.btnAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -229,58 +284,16 @@ namespace LogReader
             this.rtbContent.TabIndex = 1;
             this.rtbContent.Text = "";
             // 
-            // btnClearFilter
+            // btnDelFindFolder
             // 
-            this.btnClearFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearFilter.Location = new System.Drawing.Point(952, 50);
-            this.btnClearFilter.Name = "btnClearFilter";
-            this.btnClearFilter.Size = new System.Drawing.Size(75, 30);
-            this.btnClearFilter.TabIndex = 2;
-            this.btnClearFilter.Text = "Clear Filter";
-            this.btnClearFilter.UseVisualStyleBackColor = true;
-            this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 87);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Lines from:";
-            // 
-            // tbLnNum1
-            // 
-            this.tbLnNum1.Location = new System.Drawing.Point(68, 87);
-            this.tbLnNum1.Name = "tbLnNum1";
-            this.tbLnNum1.Size = new System.Drawing.Size(79, 20);
-            this.tbLnNum1.TabIndex = 4;
-            // 
-            // tbLnNum2
-            // 
-            this.tbLnNum2.Location = new System.Drawing.Point(181, 87);
-            this.tbLnNum2.Name = "tbLnNum2";
-            this.tbLnNum2.Size = new System.Drawing.Size(79, 20);
-            this.tbLnNum2.TabIndex = 6;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(156, 87);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "to:";
-            // 
-            // btnLnNumRange
-            // 
-            this.btnLnNumRange.Location = new System.Drawing.Point(267, 87);
-            this.btnLnNumRange.Name = "btnLnNumRange";
-            this.btnLnNumRange.Size = new System.Drawing.Size(75, 23);
-            this.btnLnNumRange.TabIndex = 7;
-            this.btnLnNumRange.Text = "Set Range";
-            this.btnLnNumRange.UseVisualStyleBackColor = true;
-            this.btnLnNumRange.Click += new System.EventHandler(this.btnLnNumRange_Click);
+            this.btnDelFindFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelFindFolder.Location = new System.Drawing.Point(151, 78);
+            this.btnDelFindFolder.Name = "btnDelFindFolder";
+            this.btnDelFindFolder.Size = new System.Drawing.Size(122, 23);
+            this.btnDelFindFolder.TabIndex = 47;
+            this.btnDelFindFolder.Text = "Remove Find Folder";
+            this.btnDelFindFolder.UseVisualStyleBackColor = true;
+            this.btnDelFindFolder.Click += new System.EventHandler(this.btnDelFindFolder_Click);
             // 
             // Form1
             // 
@@ -328,6 +341,7 @@ namespace LogReader
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbLnNum1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnDelFindFolder;
     }
 }
 

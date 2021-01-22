@@ -19,15 +19,19 @@ namespace LogReader
     struct SLogFileInfo
     {
         public string FilePath { get; private set; }
+        public bool IsFile { get; private set; }
 
-        public SLogFileInfo(string inFilePath)
+        public SLogFileInfo(string inFilePath, bool inIsFile)
         {
             FilePath = inFilePath;
+            IsFile = inIsFile;
         }
 
         public override string ToString()
         {
-            return Path.GetFileName(FilePath);
+            if(IsFile)
+                return Path.GetFileName(FilePath);
+            return $"-- {FilePath} --";
         }
     }
 }
